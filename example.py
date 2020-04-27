@@ -178,6 +178,8 @@ t1 = time.time()
 elapsed_time = t1 - t0
 print('it took me ', elapsed_time, 's to generate the isotropic turbulence.')
 
+
+
 if enableIO:
     if use_threads:
         isoio.writefileparallel(u, v, w, dx, dy, dz, fileformat)
@@ -185,12 +187,13 @@ if enableIO:
         isoio.writefile('u_' + fileappend + '.txt', 'x', dx, dy, dz, u, fileformat)
         isoio.writefile('v_' + fileappend + '.txt', 'y', dx, dy, dz, v, fileformat)
         isoio.writefile('w_' + fileappend + '.txt', 'z', dx, dy, dz, w, fileformat)
-
+savemat = True
 if savemat:
     data = {}  # CREATE empty dictionary
     data['U'] = u
     data['V'] = v
     data['W'] = w
+    print("Saving uvw.mat") 
     scipy.io.savemat('uvw.mat', data)
 
 # compute mean velocities
@@ -307,3 +310,5 @@ plt.legend(handles=[l1, l2], loc=1)
 # fig.savefig('tkespec_' + filespec + '_' + str(N) + '.pdf')
 fig.savefig('tkespec_' + fileappend + '.pdf')
 plt.show()
+
+print("Load uvw.mat using turbGenMat = scipy.io.loadmat('uvw.mat') \n uGen,vGen,wGen = turbGenMat['U'],turbGenMat['V'],turbGenMat['W'] \n turbSynthNoise = NHWDC{3CH} \n ")
